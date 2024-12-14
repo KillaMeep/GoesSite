@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Data Explorer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            background-color: #1e1e1e;
+            color: #4CAF50;
+            padding: 10px;
+            text-align: center;
+            width: 100%;
+        }
+        main {
+            padding: 20px;
+            width: 80%;
+            background-color: #181818;
+            border-radius: 10px;
+        }
+        .file-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .file-item {
+            border: 1px solid #333;
+            background-color: #2c2c2c;
+            padding: 10px;
+            border-radius: 5px;
+            width: 200px;
+            text-align: center;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .file-item div {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-word;
+            color: #e0e0e0;
+        }
+        .file-item img {
+            max-width: 100%;
+            max-height: 150px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .file-item img.loaded {
+            opacity: 1;
+        }
+        .file-item a {
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        .file-item a:hover {
+            color: #81c784;
+            text-decoration: underline;
+        }
+        .navigation-buttons {
+            margin-bottom: 20px;
+        }
+        .navigation-buttons button {
+            padding: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+            cursor: pointer;
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #444;
+            border-radius: 5px;
+        }
+        .navigation-buttons button:hover {
+            background-color: #555;
+        }
+        .navigation-buttons button:disabled {
+            background-color: #666;
+            cursor: not-allowed;
+        }
+        .fullscreen-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            cursor: pointer;
+        }
+        .fullscreen-image {
+            max-width: 90%;
+            max-height: 90%;
+            transition: transform 0.2s ease-in-out;
+        }
+        .fullscreen-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #e0e0e0;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .fullscreen-controls a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .fullscreen-controls a:hover {
+            color: #81c784;
+        }
+        .viewFullscreenButton {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #444;
+            border-radius: 5px;
+        }
+        .viewFullscreenButton:hover {
+            background-color: #555;
+        }
+        .loading {
+            font-size: 18px;
+            color: #e0e0e0;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4CAF50;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+            margin-top: 20px;
+            display: inline-block;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .question-icon {
+            font-size: 14px;
+            color: #ffcc00;
+            cursor: pointer;
+        }
+        .question-icon:hover {
+            text-decoration: underline;
+        }
+        .file-name-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .file-name {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .description-icon {
+            margin-left: 8px;
+            font-size: 18px;
+            color: #F6EF7A; /* Green color to match the theme */
+            cursor: pointer;
+        }
+
+        .description-icon:hover {
+            color: #F1E73B; /* Darker green when hovered */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Weather Data Explorer</h1>
+    </header>
+    <main>
+        <div class="navigation-buttons">
+            <button id="upButton" onclick="goUp()">Up</button>
+            <button id="backButton" onclick="goBack()">Back</button>
+        </div>
+        <div id="file-browser">
+            <h2>File Browser</h2>
+            <div id="file-list" class="file-list"></div>
+            <div id="loadingIndicator" class="loading" style="display: none;">
+                <p>Loading...</p>
+                <div class="spinner"></div>
+            </div>
+        </div>
+    </main>
+
+    <div id="fullscreenContainer" class="fullscreen-container" onclick="closeFullscreen()">
+        <img id="fullscreenImage" class="fullscreen-image" src="" alt="Fullscreen Image">
+        <div class="fullscreen-controls">
+            <a href="#" id="openNewTab">Open in New Tab</a>
+        </div>
+    </div>
+
+    <script>
+        const apiUrl = '/api/list';
+        const thumbnailUrl = '/api/thumbnail';
+        const downloadUrl = '/api/download';
+        let currentPath = '';
+        let historyStack = [];
+
+        async function fetchFiles(path = '') {
+            try {
+                const loadingIndicator = document.getElementById('loadingIndicator');
+                loadingIndicator.style.display = 'block';
+
+                const response = await fetch(`${apiUrl}?path=${encodeURIComponent(path)}`);
+                const files = await response.json();
+                displayFiles(files, path);
+            } catch (error) {
+                console.error('Error fetching files:', error);
+            }
+        }
+
+        async function fetchShortname(channel) {
+            console.log('Fetching shortname for channel:', channel);
+            try {
+                const response = await fetch(`/api/shortname?channel=${channel}`);
+                if (response.status === 200) {
+                    const shortNameData = await response.json();
+                    return shortNameData.shortname || "Shortname not available";
+                } else if (response.status === 204) {
+                    return channel; // If no content (204), use the filename
+                } else {
+                    return "Shortname not available";
+                }
+            } catch (error) {
+                console.error('Error fetching shortname:', error);
+                return "Shortname not available";
+            }
+        }
+
+        async function fetchDescription(channel) {
+            console.log('Fetching description for channel:', channel);
+            try {
+                const response = await fetch(`/api/description?channel=${channel}`);
+                if (response.status === 200) {
+                    const data = await response.json();
+                    return data.description || '';
+                } else if (response.status === 204) {
+                    return ''; // If no content (204), no description available
+                } else {
+                    return '';
+                }
+            } catch (error) {
+                console.error('Error fetching description:', error);
+                return '';
+            }
+        }
+
+        async function displayFiles(files, path) {
+            const fileList = document.getElementById('file-list');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            fileList.innerHTML = '';
+            currentPath = path;
+
+            loadingIndicator.style.display = 'none';
+
+            let loadedFilesCount = 0;
+            const totalFiles = files.length;
+
+            if (historyStack[historyStack.length - 1] !== path) {
+                historyStack.push(path);
+            }
+
+            updateNavigationButtons();
+
+            // Fetch shortnames and descriptions concurrently
+            const shortnamesPromises = files.map(async (file) => {
+                if (file.isDirectory) {
+                    const channelName = file.path.split('/').pop();
+                    return fetchShortname(channelName);
+                } else {
+                    return file.filename;
+                }
+            });
+
+            const descriptionsPromises = files.map(async (file) => {
+                if (file.isDirectory) {
+                    const channelName = file.path.split('/').pop();
+                    return fetchDescription(channelName);
+                }
+                return '';
+            });
+
+            // Wait for all promises to resolve
+            const [shortnames, descriptions] = await Promise.all([Promise.all(shortnamesPromises), Promise.all(descriptionsPromises)]);
+
+            // Display files with shortnames and descriptions
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const shortName = shortnames[i];
+                const description = descriptions[i];
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+
+                if (file.isDirectory) {
+                    fileItem.innerHTML = `
+                        <div>${shortName}</div>
+                        <a href="#" onclick="navigateTo('${file.path}')">Open Folder</a>
+                    `;
+                    fileItem.style.visibility = 'visible';
+                    fileList.appendChild(fileItem);
+
+                    if (description) {
+                        const descriptionIcon = document.createElement('span');
+                        descriptionIcon.className = 'description-icon';
+                        descriptionIcon.title = description;
+                        descriptionIcon.textContent = ' (?)';
+                        fileItem.appendChild(descriptionIcon);
+                    }
+                } else {
+                    const imageElement = document.createElement('img');
+                    imageElement.src = `${thumbnailUrl}?path=${encodeURIComponent(file.path)}`;
+                    imageElement.alt = "Thumbnail";
+
+                    imageElement.onload = () => {
+                        if (imageElement.naturalWidth === 0 || imageElement.naturalHeight === 0) {
+                            fileItem.remove();
+                            return;
+                        }
+                        fileItem.style.visibility = 'visible';
+                        loadedFilesCount++;
+                        if (loadedFilesCount === totalFiles) {
+                            loadingIndicator.style.display = 'none';
+                        }
+                    };
+
+                    imageElement.onerror = () => {
+                        fileItem.remove();
+                    };
+
+                    imageElement.classList.add('loaded');
+
+                    fileItem.innerHTML = `
+                        <div class="file-name-container">
+                            <div class="file-name">${shortName}</div>
+                        </div>
+                        <a href="${downloadUrl}?path=${encodeURIComponent(file.path)}" download>Download</a>
+                        <button class="viewFullscreenButton" onclick="viewFullscreen('${file.path}')">View Fullscreen</button>
+                    `;
+                    fileItem.prepend(imageElement);
+                    fileList.appendChild(fileItem);
+                }
+            }
+
+            history.pushState({ path: currentPath }, '', `?path=${encodeURIComponent(currentPath)}`);
+        }
+
+        function updateNavigationButtons() {
+            const upButton = document.getElementById('upButton');
+            const backButton = document.getElementById('backButton');
+
+            // Enable/disable buttons based on current path and history
+            if (currentPath === '') {
+                upButton.disabled = true;
+            } else {
+                upButton.disabled = false;
+            }
+
+            if (historyStack.length <= 1) {
+                backButton.disabled = true;
+            } else {
+                backButton.disabled = false;
+            }
+        }
+
+        function goUp() {
+            const parentPath = currentPath.substring(0, currentPath.lastIndexOf('/'));
+            if (parentPath !== currentPath) {
+                fetchFiles(parentPath);
+            }
+        }
+
+        function goBack() {
+            if (historyStack.length > 1) {
+                historyStack.pop();
+                fetchFiles(historyStack[historyStack.length - 1]);
+            }
+        }
+
+        function navigateTo(path) {
+            fetchFiles(path);
+        }
+
+        function viewFullscreen(path) {
+            const imageElement = document.getElementById('fullscreenImage');
+            imageElement.src = `${thumbnailUrl}?path=${encodeURIComponent(path)}`;
+            document.getElementById('fullscreenContainer').style.display = 'flex';
+            document.getElementById('openNewTab').href = `${downloadUrl}?path=${encodeURIComponent(path)}`;
+        }
+
+        function closeFullscreen() {
+            document.getElementById('fullscreenContainer').style.display = 'none';
+        }
+
+        fetchFiles();
+    </script>
+</body>
+</html>

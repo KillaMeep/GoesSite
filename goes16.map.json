@@ -1,0 +1,82 @@
+{
+    "ch01": {
+        "shortname": "Blue Band",
+        "description": "Located in the blue portion of the visible spectrum, it provides nearly continuous daytime observations of dust, haze, smoke, and clouds. It also includes measurements of \"aerosol optical depths\" that help air quality monitoring and tracking. Measurements in the blue band may provide estimates of visibility as well. (0.47 µm)"
+    },
+    "ch02": {
+        "shortname": "Red Band",
+        "description": "The Red band is located near the red portion of the visible spectrum. While it looks similar to channel 1 (The Blue Band), when you want \"visible imagery\", this is the band to choose. It is used for daytime snow and ice cover, detection of severe weather, low-level cloud-drift winds, smoke, volcanic ash, hurricane analysis, and winter storm analysis. (0.64 µm)"
+    },
+    "ch03": {
+        "shortname": "Veggie Band",
+        "description": "Although this is a \"near-infrared\" band (not visible to the eye), vegetation is readily seen at this wavelength, giving it the nickname \"veggie\" band. It is useful in assessing land characteristics when determining fire and flood potential. For example, forest fire damage will appear darker than nearby unaffected areas, which helps pinpoint locations where significant rainfall may lead to flooding and mudslides. (0.86 µm)"
+    },
+    "ch04": {
+        "shortname": "Cirrus Band",
+        "description": "This band is centered in a strong water vapor absorption of the electromagnetic spectrum. What this means is radiation from water vapor (water in a gaseous state) is absorbed and therefore not routinely visible at this wavelength. Therefore, this channel provides excellent daytime sensitivity to high, very thin cirrus under most circumstances, hence the \"cirrus\" band. This also means it is easier to distinguish between low and high clouds or other bright objects and high clouds."
+    },
+    "ch05": {
+        "shortname": "Snow/Ice",
+        "description": "This band takes advantage of the different way light is refracted between solid ice and liquid water. Snow and ice surfaces (solids) strongly absorb this wavelength. As a result, during daylight hours, ice crystals in snow and cirro-form clouds appear darker than clouds which consist of liquid water. During the nighttime hours, when it is too dark to distinguish snow/ice, very hot wildfires appear brightly against the dark background. Wildfires emit radiation at the same wavelength, so it is a dual-use band. (1.61 µm)"
+    },
+    "ch06": {
+        "shortname": "Cloud Particle Size",
+        "description": "The cloud particle size increases as they change from liquid to ice. This channel helps maximize the apparent difference so we can distinguish liquid clouds from ice crystal clouds. Small particles (liquid) appear bright while larger ice crystals appear dark. Also, similar to the 1.6 µm band, the 2.2 µm band can be useful in determining hot spots at night. In fact, this channel is closer to the emitting energy of fires than channel 5 (The Snow/Ice Band). (2.24 µm)"
+    },
+    "ch07": {
+        "shortname": "Shortwave Window",
+        "description": "This infrared channel is sensitive to temperature and therefore able to see the slight thermal differences between the ground and low stratus clouds. This makes it useful for identifying night time fog and low clouds. It is also useful for detecting volcanic ash, estimating sea-surface temperatures, and studying urban heat islands. (3.9 µm)"
+    },
+    "ch08": {
+        "shortname": "Upper-Level Water Vapor",
+        "description": "The primary use for this band is the detection of upper level atmospheric features such as jet streams, troughs/ridges, and signs of potential turbulence. (6.2 µm)"
+    },
+    "ch09": {
+        "shortname": "Mid-Level Water Vapor",
+        "description": "Unless higher-level clouds obscure the view, this band can view as low as 500 mb level (about 18,000 feet/5,500 meters). It is used for mid- and upper-level water vapor tracking, jet stream identification, hurricane track forecasting, mid-latitude storm forecasting, severe weather analysis, and mid-level moisture estimation. (6.9 µm)"
+    },
+    "ch10": {
+        "shortname": "Lower-Level Water Vapor",
+        "description": "This channel peers deepest into the atmosphere. Unless higher-level clouds obscure the view, this band can view as low as 750 mb level (about 8,000 feet/2,400 meters). As such, it is useful to view and estimate lower-level moisture and jet streaks (small areas embedded in the jet stream that can lead to severe weather). It can also be used to highlight volcanic plumes that are rich in sulfur dioxide (SO2). (7.3 µm)"
+    },
+    "ch11": {
+        "shortname": "Cloud-Top",
+        "description": "Clouds can consist of the following phases: liquid water, super-cooled water (droplets remain in liquid form although the temperature is BELOW freezing), or frozen. This band is similar to the \"traditional\" infrared band but with the added benefit of helping to determine cloud phase. It is used in combination with channels 14 and 15 to help derive cloud phases during both day and night.With multiple ways to apply this data, this band is widely used in day to day operations. This band is essential for generating many products. (8.5 µm)"
+    },
+    "ch12": {
+        "shortname": "Ozone Band",
+        "description": "This band provides information about the dynamics of the atmosphere near the tropopause (the atmospheric boundary between the troposphere below – where we live – and the stratosphere above). The ozone band on the ABI does not give exact information on total ozone; rather, multiple ABI IR bands are used to calculate an estimate. The Total Ozone product provides information to forecasters that helps them forecast areas of atmospheric turbulence and provide better forecasts of air quality. (9.6 µm)"
+    },
+    "ch13": {
+        "shortname": "Clean Infrared",
+        "description": "This channel is considered \"clean\" because it is less sensitive than other infrared window channels to water vapor. Because of this, when compared to the Cloud-top channel, it can see through some clouds to view ice. This helps to improve corrections to atmospheric moisture and is useful for the estimation of cloud particle sizes. This channel will be used in many composite and band differences views. (10.3 µm)"
+    },
+    "ch14": {
+        "shortname": "Traditional Infrared",
+        "description": "Observations from this infrared window channel combined with other wavelengths, contribute to many satellite derived products, such as precipitation estimates, cloud-drift winds, hurricane intensity and track analyses, cloud-top heights, and volcanic ash detection, as well as fog detection, cloud phase, and cloud particle size estimates. (11.2 µm)"
+    },
+    "ch15": {
+        "shortname": "Dirty Infrared",
+        "description": "This channel is considered \"dirty\" because it is more sensitive than other infrared window channels to water vapor. When compared to the \"clean\" window, it is used to compute the split window difference. A split window difference is where the values for any particular location on the \"dirty\" channel are subtracted from the values at the same location on the \"clean\" channel. This helps to highlight differences in moisture in clear skies. (12.3 µm)"
+    },
+    "ch16": {
+        "shortname": "Carbon Dioxide Band",
+        "description": "This band is typically not used for visual interpretation of weather events but for the generation of other derived GOES imagery. Its primary use is for air temperature estimation, determining the location of the tropopause and cloud observations for cloud top height, cloud-drift (for determining wind speed and direction), and supplementing ASOS observations. (13.3 µm)"
+    },
+    "CUSTOMLUT": {
+        "shortname": "Custom LUT",
+        "description": "Custom-generated color mappings, potentially for improved visual representation."
+    },
+    "fc": {
+        "shortname": "Full Color",
+        "description": "A composite of multiple channels to display full-color imagery."
+    },
+    "nomaps": {
+        "shortname": "No Maps",
+        "description": "Full color imagery without underlying maps."
+    },
+    "fd": {
+        "shortname": "Full Disk",
+        "description": "Full planet images"
+    }
+}

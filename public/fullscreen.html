@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fullscreen Image</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.2s ease-in-out;
+            cursor: grab;
+            position: relative;
+        }
+        .zoom-controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #e0e0e0;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .zoom-controls a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .zoom-controls a:hover {
+            color: #81c784;
+        }
+    </style>
+</head>
+<body>
+    <img id="fullscreenImage" src="" alt="Fullscreen Image">
+
+    <div class="zoom-controls">
+        <a href="#" id="backLink">Back</a>
+    </div>
+
+    <script>
+        const fullscreenImage = document.getElementById('fullscreenImage');
+        let scale = 1;
+        let isDragging = false;
+        let startX, startY;
+        let offsetX = 0, offsetY = 0;
+
+        // Get the image URL from the query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const imageUrl = urlParams.get('image');
+        if (imageUrl) {
+            fullscreenImage.src = decodeURIComponent(imageUrl);
+        }
+
+        // Prevent the default drag behavior of the image
+        fullscreenImage.addEventListener('dragstart', (event) => {
+            event.preventDefault();
+        });
+
+        // Handle zooming in and out without focusing on the mouse position
+        document.addEventListener('wheel', (event) => {
+            const zoomFactor = 1.1;
+            if (event.deltaY < 0) {
+                scale *= zoomFactor; // Zoom in
+            } else {
+                scale /= zoomFactor; // Zoom out
+            }
+
+            // Apply zoom without changing focus
+            fullscreenImage.style.transform = `scale(${scale})`;
+
+            event.preventDefault();
+        });
+
+        // Handle dragging
+        fullscreenImage.addEventListener('mousedown', (event) => {
+            isDragging = true;
+            startX = event.pageX - offsetX;
+            startY = event.pageY - offsetY;
+            fullscreenImage.style.cursor = 'grabbing';
+        });
+
+        document.addEventListener('mousemove', (event) => {
+            if (isDragging) {
+                offsetX = event.pageX - startX;
+                offsetY = event.pageY - startY;
+                fullscreenImage.style.left = `${offsetX}px`;
+                fullscreenImage.style.top = `${offsetY}px`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            fullscreenImage.style.cursor = 'grab';
+        });
+
+        // Back link functionality
+        const backLink = document.getElementById('backLink');
+        backLink.addEventListener('click', () => {
+            window.history.back(); // Go back to the previous page (main page)
+        });
+    </script>
+</body>
+</html>
