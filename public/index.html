@@ -410,11 +410,16 @@
             fetchFiles(path);
         }
 
-        function viewFullscreen(path) {
-            const imageElement = document.getElementById('fullscreenImage');
-            imageElement.src = `${thumbnailUrl}?path=${encodeURIComponent(path)}`;
-            document.getElementById('fullscreenContainer').style.display = 'flex';
-            document.getElementById('openNewTab').href = `${downloadUrl}?path=${encodeURIComponent(path)}`;
+        function viewFullscreen(filePath) {
+            const imageUrl = `${downloadUrl}?path=${encodeURIComponent(filePath)}`;
+            const fullscreenContainer = document.getElementById('fullscreenContainer');
+            const fullscreenImage = document.getElementById('fullscreenImage');
+            fullscreenImage.src = imageUrl;
+            fullscreenContainer.style.display = 'flex';
+
+            // Update the "Open in New Tab" link to go to fullscreen.html
+            const openNewTabLink = document.getElementById('openNewTab');
+            openNewTabLink.href = `fullscreen.html?image=${encodeURIComponent(imageUrl)}`;
         }
 
         function closeFullscreen() {
