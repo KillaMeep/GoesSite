@@ -407,6 +407,7 @@
         }
 
         function navigateTo(path) {
+            console.log('Navigating to:', path);
             fetchFiles(path);
         }
 
@@ -425,8 +426,11 @@
         function closeFullscreen() {
             document.getElementById('fullscreenContainer').style.display = 'none';
         }
-
-        fetchFiles();
+        
+        // Handle URL query parameter to set the path when the page loads
+        const urlParams = new URLSearchParams(window.location.search);
+        const initialPath = urlParams.get('path') || '';
+        fetchFiles(initialPath);
     </script>
 </body>
 </html>
