@@ -17,7 +17,8 @@ let channelMap = JSON.parse(fs.readFileSync(path.join(__dirname, 'goes16.map.jso
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Base directory for the mounted SMB share
-const baseDirectory = '/mnt/plexy/Weather/GOES';
+// POINT TO YOUR IMAGES
+const baseDirectory = '/mnt/plexy/Weather/GOES'; 
 
 // Directory to store the thumbnails if they don't already exist
 const thumbnailDir = path.join(__dirname, 'thumbnails');
