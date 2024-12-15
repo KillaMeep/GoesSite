@@ -1,6 +1,9 @@
-# GoesSite
+<p align="center">
+  <img src="public/bigico.ico" alt="GoesSite Icon" width="100" />
+</p>
 
-GoesSite is a web application built with Node.js and Express. This README will guide you through the installation and setup process.
+<h1 align="center">GoesSite</h1>
+<br/><br/>
 
 ## Prerequisites
 
