@@ -259,7 +259,6 @@ async function processMissingThumbnails() {
             const encodedFilePath = encodeURIComponent(filePath);
             const thumbnailPath = path.join(thumbnailDir, encodedFilePath + '.jpg');
             
-            missingFileStream.write(filePath + '\n'); // Log missing paths
 
             tasks.push(
                 thumbnailQueue.add({ imagePath: fullPath, thumbnailPath })
@@ -278,7 +277,6 @@ async function processMissingThumbnails() {
         // Wait for remaining jobs to finish
         await Promise.all(tasks);
         progressBar.stop();
-        missingFileStream.end(); // Close the file after processing
 
         console.log('Missing thumbnails processed successfully.');
         console.log('The list of missing thumbnails has been saved to missing.txt.');
