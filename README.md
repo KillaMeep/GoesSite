@@ -50,7 +50,6 @@ Then, navigate into the project directory:
 cd GoesSite
 ```
 
-<br></br>
 
 ## 2. Install Dependencies
 Run the following to install the required dependencies:
@@ -68,12 +67,10 @@ const baseDirectory = '/mnt/plexy/Weather/GOES';  // <-- change this (Line 21)
 ```
 You can use a local drive, or a mounted SMB share for storing your images.
 
-<br></br>
 ## 3. Run the Server
 Start the server with this command:
 ```properties
 npm run prod
 ```
-<br></br>
 ## 4. 🎉 You're Done!
 Your server is now running at `localhost:5000`. Have fun with your data!
