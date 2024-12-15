@@ -280,7 +280,6 @@ async function processMissingThumbnails() {
         progressBar.stop();
 
         console.log('Missing thumbnails processed successfully.');
-        console.log('The list of missing thumbnails has been saved to missing.txt.');
     } catch (err) {
         console.error('Error processing missing thumbnails:', err);
     }
