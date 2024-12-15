@@ -11,6 +11,7 @@ Before getting started, make sure you have the following:
 
 - **Node.js**: (Latest stable version recommended).
 - **npm**: Comes with Node.js and is used to install dependencies.
+- **Redis**: For thumbnail workers
 - **Data**: Some data from the GOES satellites to play with.
 <br></br>
 ---
@@ -19,10 +20,10 @@ Before getting started, make sure you have the following:
 
 ### 1. Install NodeJS
 
-If you havn't already, get node.js and npm.
-```bash
+If you havn't already, get node.js, and redis.
+```properties
 sudo apt update
-sudo apt install nodejs
+sudo apt install nodejs redis-server
 ```
 
 You can run this to check if node installed successfully.
@@ -32,11 +33,6 @@ node -v
 ```
 Example output:
 `v20.18.1`
-```properties
-npm -v
-```
-Example output:
-`10.9.2`
 <br></br>
 ### 1.1 Clone the repo
 Now, we can clone the repository to your local machine:
